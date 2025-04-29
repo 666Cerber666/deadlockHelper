@@ -1,17 +1,22 @@
-<script setup lang="ts">
-import { useRouter } from 'vue-router'
+<script>
 
-const router = useRouter()
-
-// Проверяем, если пользователь обновляет страницу
-if (window.performance.navigation.type === 1) {
-  // Перебрасываем пользователя на главную страницу
-  router.push('/')
+export default {
+  created() {
+    // Проверяем, если пользователь обновляет страницу
+    if (window.performance.navigation.type === 1) {
+      // Перебрасываем пользователя на главную страницу
+      this.$router.push('/');
+    }
+  }
 }
 </script>
 
 <template>
-  <router-view></router-view>
+  <router-view v-slot="{ Component }">
+    <transition name="fade" mode="out-in" appear>
+      <component :is="Component" />
+    </transition>
+</router-view>
 </template>
 
 <style scoped>

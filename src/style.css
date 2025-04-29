@@ -1,9 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: JetBrains Mono, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 700;
+
+  --background-button-color: #D9223E;
+  --background-card-color: #5A6268;
+  --background-back-color: #242424;
+  --color-text: wheat;
+
 
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -14,8 +20,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.character_icon{
+  max-width:120px;
+  height:120px;
+  width:100%;
+  height:100%;
+  object-fit: cover;
+}
+
+.person_image{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+}
+
 .wrapper{
-  background-color: #1a1a1a;
+  background-color: var(--background-back-color);
   width: 100%;
   display:flex;
   flex-direction: column;
@@ -31,16 +51,68 @@
   min-height:100vh;
 }
 
-.menu{
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding:0 15px;
-  margin-bottom:15px;
+.hearth{
+  background-image: url("/public/icons/hearth.svg");
+  background-position: center;
+  background-size: 100%;
+  cursor: pointer;
 }
 
-.menu>button{
-  color:wheat
+.hearth_red{
+  background-image: url("/public/icons/hearth_red.svg");
+  background-position: 100%;
+  background-size: 100%;
+  cursor: pointer;
+}
+
+.card-filter{
+  padding:2px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card-filter:hover {
+  transform: scale(1.01);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.card{
+  background-color: var(--background-card-color);
+  padding:2px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.01);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.namepage{
+  text-align: center;
+}
+
+.head{
+  background-color: rgb(117, 180, 159);
+  color:wheat;
+  font-weight: 700;
+  font-family: inherit;
+  margin-bottom:10px;
+}
+
+.head>button{
+  color:wheat;
+  background-color: inherit;
+}
+
+.menu{
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+  padding:0 15px;
+  margin-bottom:15px;
 }
 
 a {
@@ -65,15 +137,39 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
+  border-radius: 16px;
   border: 1px solid transparent;
+  background-color: var(--background-button-color);
+  width:100%;
+  max-width:360px;
   padding: 0.6em 1.2em;
   font-size: 1.5em;
   font-weight: 700;
   font-family: inherit;
+  color:wheat;
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.arrow-left{
+  background-image: url('/public/icons/arrow.svg');
+  background-position: center;
+  background-size: 100%;
+  width:52px;
+  height:52px;
+}
+
+li {
+list-style-type: disc;
+}
+
 button:hover {
   border-color: #e2af41;
 }
@@ -82,17 +178,55 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.card {
-  padding: 2em;
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 10px;
 }
 
 #app {
   flex:1;
+  background-color: #242424;
   width:100%;
   height:100%;
   display:flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.2s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+.favorite-enter-active, .favorite-leave-active {
+  transition: all 0.5s ease;
+}
+
+.favorite-enter-from {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.favorite-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.ass-enter-active, .ass-leave-active {
+  transition: all 0.5s ease;
+}
+
+.ass-enter-from {
+  opacity: 0;
+  transform: translateX(+100%);
+}
+
+.ass-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
 }
 

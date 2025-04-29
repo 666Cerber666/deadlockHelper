@@ -6,15 +6,16 @@ import type { RouteRecordRaw } from 'vue-router';
 import Home from '../pages/Home.vue';
 import Characters from '../pages/Characters.vue';
 import Items from '../pages/Items.vue';
+import ItemCard from '../pages/ItemCard.vue';
 import Assembles from '../pages/Assembles.vue';
 import Favorites from '../pages/Favorites.vue';
-import NotFound from '../pages/NotFound.vue';
 
 import PersonCard from '../pages/PersonCard.vue';
 import PersonAssembles from '../pages/PersonAssembles.vue';
 import AssemblesCard from '../pages/AssemblesCard.vue';
 import AssemblesCreate from '../pages/AssemblesCreate.vue';
 
+import NotFound from '../pages/NotFound.vue';
 
 import Register from '../pages/User/Register.vue';
 import Login from '../pages/User/Login.vue';
@@ -38,7 +39,7 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/PersonCard',
+    path: '/PersonCard/:id',
     name: 'PersonCard',
     component: PersonCard,
     meta: {
@@ -54,6 +55,14 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: '/ItemCard/:id',
+    name: 'ItemCard',
+    component: ItemCard,
+    meta: {
+      title: 'ItemCard',
+    },
+  },
+  {
     path: '/Assembles',
     name: 'Assembles',
     component: Assembles,
@@ -62,7 +71,7 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/AssemblesCard',
+    path: '/AssemblesCard/:id',
     name: 'AssemblesCard',
     component: AssemblesCard,
     meta: {
@@ -70,7 +79,7 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/AssemblesCreate',
+    path: '/AssemblesCreate/:id',
     name: 'AssemblesCreate',
     component: AssemblesCreate,
     meta: {
@@ -78,7 +87,7 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/PersonAssembles',
+    path: '/PersonAssembles/:id',
     name: 'PersonAssembles',
     component: PersonAssembles,
     meta: {

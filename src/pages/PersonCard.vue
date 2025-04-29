@@ -1,80 +1,105 @@
 <template>
-  <div class="wrapper">
-    <div class="head h-48 flex flex-col px-4">
-        <button class="w-full text-xs text-left h-12 bg-inherint" @click="GoToBack">
-            <span class="arrow-left"></span>
-        </button>
-        <div class="flex flex-row h-full items-center justify-evenly mt-4"><div class="person_icon rounded-xl mt-2"></div><div class="text-2xl">Абрамс</div></div>
+  <div v-if="character && character.vitality" class="wrapper">
+    <div class="h-full flex flex-col px-4">
+        <Header/>
+        <div class="flex flex-row h-full items-center justify-evenly mt-4"><div class="rounded-xl mt-2"><img class="person_image rounded-xl" :src="character.image_url" /></div><div class="text-2xl ml-10">{{character.name}}</div></div>
     </div>
-    <div class="text-center p-4"><p>Abrams is a Hero in Deadlock. He is a hard-boiled, hard-hitting bruiser of a character that focuses on engaging groups of enemies and relying on his high health, high damage output, and life draining ability to stay in the fight. With a powerful area stun and a devastating shoulder charge, Abrams can isolate fragile targets from the rest of the team and set-up his more damaging allies to finish them off.</p>
+    <div class="text-left p-4 mt-10">
+        <h2 class="text-2xl">Описание персонажа:</h2>
         <br>
-    <p>A capable and well-known detective of New York, Abrams solved crimes ranging from kidnappings to ritual murders. One day, a mysterious Tome was left on his desk with a note of "Don't let them have it" scrolled in Onyx blood; followed by car bombings and break-ins to his office. Now, Abrams is trying to figure out just what the hell is going on.</p></div>
-    <div class="p-4">
-        <div class="flex flex-col text-center">
+        <p>{{ character.description }}</p>
+        <br>
+        <div class="flex flex-col text-left">
 
-            <h2>Skills</h2>
+            <h2 class="text-2xl">Способности</h2>
+            <br>
 
             <div class="flex flex-col gap-4 mt-4">
-                <div class="flex flex-row border border-teal-600"><div class="skill_ico w-16 h-16 rounded-full"></div><div class="">Drain health from enemies in front of you while they are in the radius.</div></div>
-                <div class="flex flex-row border border-teal-600"><div class="skill_ico w-16 h-16 rounded-full"></div><div class="">Drain health from enemies in front of you while they are in the radius.</div></div>
-                <div class="flex flex-row border border-teal-600"><div class="skill_ico w-16 h-16 rounded-full"></div><div class="">Drain health from enemies in front of you while they are in the radius.</div></div>
-                <div class="flex flex-row border border-teal-600"><div class="skill_ico w-16 h-16 rounded-full"></div><div class="">Drain health from enemies in front of you while they are in the radius.</div></div>
+                <div v-for="(ability, index) in character.abilities" :key="index" class="flex flex-row items-center card rounded-xl px-2">
+                    <img class="w-16 h-16 rounded-md mx-4 character_icon" :src="ability.image_url" />
+                  <div>
+                    <h3 class="text-xl">{{ ability.name }}</h3>
+                    <p>{{ ability.description }}</p>
+                  </div>
+                </div>
             </div>
-            
-            <h2>Abilities</h2>
 
-            <div class="flex flex-row justify-between p-4">
-                <div class="flex flex-col">
-                    <h2>Weapon Stats</h2>
-                    <ul>
-                        <li>DPS:</li>
-                        <li>Ammo:</li>
-                        <li>Bullets per sec:</li>
-                        <li>Reload Time:</li>
-                        <li>Bullet Velocity:</li>
-                        <li>Light Melee:</li>
-                        <li>Heavy Melee:</li>
-                        <li>Falloff Range:</li>
-                    </ul>
-                </div>
-                <div class="flex flex-col">
-                    <h2>Vitality Stats</h2>
-                    <ul>
-                        <li>Health:</li>
-                        <li>Health Regen:</li>
-                        <li>Move Speed:</li>
-                        <li>Stamina:</li>
-                    </ul>
-                </div>
+            <div class="flex flex-col justify-between p-4">
+              <div class="flex flex-col">
+                <h2 class="text-2xl">Характеристики Vitality:</h2>
+                <br>
+                <ul class="pl-5">
+                  <li>Здоровье: {{ character.vitality.health }}</li>
+                  <li>Регенерация здоровья: {{ character.vitality.health_regeneration }}</li>
+                  <li>Сопротивление от пуль: {{ character.vitality.bullet_resistance }}%</li>
+                  <li>Сопротивление от дух.урона: {{ character.vitality.spirit_damage_resistance }}%</li>
+                  <li>Скорость передвижения: {{ character.vitality.movement_speed }}м/c</li>
+                  <li>Скорость бега: {{ character.vitality.running_speed }}м/c</li>
+                  <li>Выносливость: {{ character.vitality.endurance }}</li>
+                </ul>
+                <br>
+              </div>
+              <div class="flex flex-col">
+                <h2 class="text-2xl">Характеристики Weapon:</h2>
+                <br>
+                <ul class="pl-5">
+                  <li>Урон в секунду: {{ character.weapon.damage_per_second }}</li>
+                  <li>Урон оружия: {{ character.weapon.weapon_damage }}</li>
+                  <li>Патроны: {{ character.weapon.ammunition }}</li>
+                  <li>Скорострельность: {{ character.weapon.rate_of_fire }}</li>
+                  <li>Урон легкой ближней атаки: {{ character.weapon.light_melee_damage }}</li>
+                  <li>Урон тяжелой ближней атаки: {{ character.weapon.heavy_melee_damage }}</li>
+                </ul>
+              </div>
             </div>
         </div>
     </div>
   </div>
+  <Loader v-else/>
 </template>
 
 <script>
+import Header from '../components/Header.vue'
+import Loader from '../components/Loader.vue'
+import axios from 'axios'
+
 export default {
+    components:{
+        Header, Loader
+    },
+    data() {
+      return {
+        skills: [
+        
+        ],
+        character: {}
+      }
+    },
     methods:{
         GoToBack(){
             this.$router.push('/characters');
+        },
+        
+        async PersonData(){
+          try {
+            axios.get(`https://api.deadlock-helper.selfdoor.ru/characters/${this.$route.params.id}`)
+                .then(response => {
+                  this.character = response.data
+                })}
+                catch(error) {
+                console.error(error);
+                if (error.response.status === 404) {
+                  router.push({ name: 'not-found' });
+                } else {this.error = error.response.data;}
+                };
         }
+    },
+    created() {
+    if (this.$route.params.id) {
+      this.PersonData();
+    } else {
+      console.log('Параметр id не найден в URL');
     }
+  }
 }
 </script>
-
-<style>
-.skill_ico{
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    background-image: url('../assets/person_icons/abrams/skills/1-skill.png');
-}
-.arrow-left {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 10px solid #000;
-}
-</style>
